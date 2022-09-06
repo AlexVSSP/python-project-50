@@ -1,5 +1,6 @@
 import json
 
+
 def sort_by_second_part_of_key(item):
     key, value = item
     sign, word = key.split(' ', maxsplit=1)
@@ -13,26 +14,25 @@ def generate_diff(json_file1, json_file2):
         file2 = json.load(json.file2)
 
     file3 = {}
-    result = ''
+    diff_result = ''
     indent = '  '
 
-    for key1, value1 in file1.items():
-        if key1 in file2:
-            if file1[key1] == file2[key1]:
-                file3[f'  {key1}'] = file1[key1]
-            else:
-                file3[f'- {key1}'] = file1[key1]
-                file3[f'+ {key1}'] = file2[key1]
-        else:
-            file3[f'- {key1}'] = file1[key1]
-    for key2, value2 in file2.items():
-        if key2 not in file1:
-            file3[f'+ {key2}'] = file2[key2]
-        else:
-            continue
+    set1 = set(file1.items())
+    set2 = set(file2.items())
+    equal_elem_in_both_files = dict(set1 & set2)
+    diff_elem_in_file1 = dict(set1 - set2)
+    diff_elem_in_file2 = dict(set2 - set1)
+    for key, value in equal_elem_in_both_files.items():
+        file3[f'  {key}'] = value
+    for key, value in diff_elem_in_file1.items():
+        file3[f'- {key}'] = value
+    for key, value in diff_elem_in_file2.items():
+        file3[f'+ {key}'] = value
+
     sorted_file3 = dict(sorted(file3.items(), key=sort_by_second_part_of_key))
     for key, value in sorted_file3.items():
-        result += f'{indent}{key}: {value}\n'
-    result = result.replace('F', 'f')
-    result = result.replace('T', 't')
-    return f'{{\n{result}}}'
+        diff_result += f'{indent}{key}: {value}\n'
+    diff_result = diff_result.replace('F', 'f')
+    diff_result = diff_result.replace('T', 't')
+    diff_result = diff_result.replace('null', 'None')
+    return f'{{\n{diff_result}}}'

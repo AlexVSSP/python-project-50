@@ -1,0 +1,9 @@
+{
+    follow: true
+  - host: old_site.io
+  + host: new_site.io
+  - proxy: 123.234.55.22
+  + proxy: 123.234.55.23
+    timeout: 100
+  + user_name: null
+}

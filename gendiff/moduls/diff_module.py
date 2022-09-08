@@ -7,12 +7,21 @@ def sort_by_second_part_of_key(item):
     return str(word.strip())
 
 
+def check_exceptions(element):
+    if element == True:
+        return "true"
+    if element == False:
+        return "false"
+    if element == None:
+        return "null"
+    return element
+
+
 def generate_diff(json_file1, json_file2):
     with open(json_file1) as json.file1:
         file1 = json.load(json.file1)
     with open(json_file2) as json.file2:
         file2 = json.load(json.file2)
-
     file3 = {}
     diff_result = ''
     indent = '  '
@@ -28,11 +37,7 @@ def generate_diff(json_file1, json_file2):
         file3[f'- {key}'] = value
     for key, value in diff_elem_in_file2.items():
         file3[f'+ {key}'] = value
-
     sorted_file3 = dict(sorted(file3.items(), key=sort_by_second_part_of_key))
     for key, value in sorted_file3.items():
-        diff_result += f'{indent}{key}: {value}\n'
-    diff_result = diff_result.replace('F', 'f')
-    diff_result = diff_result.replace('T', 't')
-    diff_result = diff_result.replace('null', 'None')
+        diff_result += f'{indent}{key}: {check_exceptions(value)}\n'
     return f'{{\n{diff_result}}}'

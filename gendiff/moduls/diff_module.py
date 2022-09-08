@@ -8,11 +8,11 @@ def sort_by_second_part_of_key(item):
 
 
 def check_exceptions(element):
-    if element == True:
+    if element is True:
         return "true"
-    if element == False:
+    if element is False:
         return "false"
-    if element == None:
+    if element is None:
         return "null"
     return element
 

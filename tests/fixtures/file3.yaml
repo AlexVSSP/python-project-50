@@ -1,0 +1,4 @@
+host: old_site.io
+timeout: 100
+proxy: 123.234.55.22
+follow: true

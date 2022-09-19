@@ -1,6 +1,7 @@
 import json
 import yaml
 from .parser_module import parse
+from .stylish import sorted_stylish, indent_stylish
 
 
 def get_data(path_to_file):
@@ -16,4 +17,5 @@ def get_data(path_to_file):
 
 def generate_diff(input_file1, input_file2):
     diff = parse(get_data(input_file1), get_data(input_file2))
-    return diff
+    format_diff = indent_stylish(sorted_stylish(diff))
+    return format_diff

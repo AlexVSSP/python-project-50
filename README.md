@@ -9,3 +9,6 @@
 
 ###Comparison of flat files (yml, yaml)
 [![asciicast](https://asciinema.org/a/520143.svg)](https://asciinema.org/a/520143)
+
+###Comparison of nested files (JSON, yaml)
+[![asciicast](https://asciinema.org/a/522370.svg)](https://asciinema.org/a/522370)

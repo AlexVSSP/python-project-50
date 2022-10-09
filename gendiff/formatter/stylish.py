@@ -26,7 +26,7 @@ def sorted_stylish(item_to_sort):
     return sorted_item
 
 
-def indent_stylish(file_to_format, replacer='  ', spaces_count=1):
+def stylish(file_to_format, replacer='  ', spaces_count=1):
     def inner(current_value, add_indent):
         if not isinstance(current_value, dict):
             return str(current_value)
@@ -41,4 +41,4 @@ def indent_stylish(file_to_format, replacer='  ', spaces_count=1):
                          f'{inner(check_exceptions(val), inner_count)}')
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
-    return inner(file_to_format, 0)
+    return inner(sorted_stylish(file_to_format), 0)

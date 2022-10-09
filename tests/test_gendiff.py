@@ -1,5 +1,6 @@
 import pytest
 from gendiff import generate_diff
+from gendiff.formatter.plain import plain
 
 
 @pytest.fixture
@@ -77,6 +78,11 @@ def test_generate_nested_diff1(file1_nested_json, file2_nested_json):
     assert generate_diff(file1_nested_json, file2_nested_json) == correct_result.read()
 
 
+def test_generate_plain_nested_diff1(file1_nested_json, file2_nested_json):
+    correct_result = open('tests/fixtures/correct_plain_result_files_1_2_nested.txt')
+    assert generate_diff(file1_nested_json, file2_nested_json, plain) == correct_result.read()
+
+
 @pytest.fixture
 def file1_nested_yaml():
     return 'tests/fixtures/file1_nested.yaml'
@@ -90,6 +96,3 @@ def file2_nested_yaml():
 def test_generate_nested_diff2(file1_nested_yaml, file2_nested_yaml):
     correct_result = open('tests/fixtures/correct_result_files_1_2_nested.txt')
     assert generate_diff(file1_nested_yaml, file2_nested_yaml) == correct_result.read()
-
-
-

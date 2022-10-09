@@ -12,3 +12,6 @@
 
 ###Comparison of nested files (JSON, yaml)
 [![asciicast](https://asciinema.org/a/522370.svg)](https://asciinema.org/a/522370)
+
+###Comparison of nested files (plain)
+[![asciicast](https://asciinema.org/a/526834.svg)](https://asciinema.org/a/526834)

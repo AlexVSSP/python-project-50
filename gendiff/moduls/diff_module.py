@@ -3,6 +3,7 @@ import yaml
 from .parser_module import parse
 from gendiff.formatter.stylish import stylish
 from gendiff.formatter.plain import plain
+from gendiff.formatter.json import json as json_format
 
 
 def get_data(path_to_file):
@@ -23,4 +24,7 @@ def generate_diff(input_file1, input_file2, format=stylish):
         return format_diff
     elif format == plain:
         format_diff = plain(diff)
+        return format_diff
+    elif format == json_format:
+        format_diff = json_format(diff)
         return format_diff

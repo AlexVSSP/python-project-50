@@ -4,14 +4,17 @@
 [![Python CI](https://github.com/AlexVSSP/python-project-50/actions/workflows/pyci.yml/badge.svg)](https://github.com/AlexVSSP/python-project-50/actions/workflows/pyci.yml)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6a419b22b1daf6cc6550/test_coverage)](https://codeclimate.com/github/AlexVSSP/python-project-50/test_coverage)
 
-###Comparison of flat files (JSON)
+###Comparison of flat files (JSON files)
 [![asciicast](https://asciinema.org/a/518768.svg)](https://asciinema.org/a/518768)
 
-###Comparison of flat files (yml, yaml)
+###Comparison of flat files (yml, yaml files)
 [![asciicast](https://asciinema.org/a/520143.svg)](https://asciinema.org/a/520143)
 
-###Comparison of nested files (JSON, yaml)
+###Comparison of nested files (JSON, yaml files)
 [![asciicast](https://asciinema.org/a/522370.svg)](https://asciinema.org/a/522370)
 
-###Comparison of nested files (plain)
+###Comparison of nested files (output in plain)
 [![asciicast](https://asciinema.org/a/526834.svg)](https://asciinema.org/a/526834)
+
+###Comparison of nested files (output in JSON)
+[![asciicast](https://asciinema.org/a/527742.svg)](https://asciinema.org/a/527742)

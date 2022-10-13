@@ -21,6 +21,8 @@ def check_exceptions(element):
         return "false"
     if element is None:
         return "null"
+    if isinstance(element, int):
+        return element
     return f"'{element}'"
 
 

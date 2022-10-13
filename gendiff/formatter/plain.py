@@ -28,7 +28,6 @@ def sorted_plain(item_to_sort):
     if isinstance(item_to_sort, dict):
         sorted_item = dict(sorted(item_to_sort.items(),
                            key=sort_by_second_part_of_key))
-    # print(f'{sorted_item}\n')
     for key in sorted_item:
         if isinstance(sorted_item[key], dict) and (len(sorted_item[key]) > 1):
             sorted_item[key] = sorted_plain(sorted_item[key])

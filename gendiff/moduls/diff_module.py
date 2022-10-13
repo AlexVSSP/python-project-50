@@ -21,10 +21,10 @@ def generate_diff(input_file1, input_file2, format=stylish):
     diff = parse(get_data(input_file1), get_data(input_file2))
     if format == stylish:
         format_diff = stylish(diff)
-        return format_diff
+        print(format_diff)
     elif format == plain:
         format_diff = plain(diff)
-        return format_diff
+        print(format_diff)
     elif format == json_format:
         format_diff = json_format(diff)
-        return format_diff
+        print(format_diff)

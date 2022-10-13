@@ -17,14 +17,14 @@ def get_data(path_to_file):
         return data
 
 
-def generate_diff(input_file1, input_file2, format=stylish):
+def generate_diff(input_file1, input_file2, format='stylish'):
     diff = parse(get_data(input_file1), get_data(input_file2))
-    if format == stylish:
+    if format == 'stylish':
         format_diff = stylish(diff)
         return format_diff
-    elif format == plain:
+    elif format == 'plain':
         format_diff = plain(diff)
         return format_diff
-    elif format == json_format:
+    elif format == 'json':
         format_diff = json_format(diff)
         return format_diff

@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 import argparse
 from gendiff import generate_diff
-from gendiff.formatter.stylish import stylish
-from gendiff.formatter.plain import plain
-from gendiff.formatter.json import json
+# from gendiff.formatter.stylish import stylish
+# from gendiff.formatter.plain import plain
+# from gendiff.formatter.json import json
 
 
 def main():

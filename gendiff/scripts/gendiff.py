@@ -3,6 +3,9 @@ import argparse
 from gendiff import generate_diff
 
 
+FORMAT_STYLISH = 'stylish'
+
+
 def main():
     parser = argparse.ArgumentParser(prog='gendiff',
                                      description='Compares two configuration '
@@ -11,7 +14,7 @@ def main():
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.add_argument("-f", "--format",
-                        help="set format of output", default='stylish')
+                        help="set format of output", default=FORMAT_STYLISH)
     args = parser.parse_args()
 
     print(generate_diff(args.first_file, args.second_file, args.format))

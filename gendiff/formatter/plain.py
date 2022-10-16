@@ -26,6 +26,34 @@ def check_exceptions(element):
     return f"'{element}'"
 
 
+def nested_check(indict):
+    if not isinstance(indict, dict):
+        return indict
+    else:
+        dictionary = {}
+        for k, v in indict.items():
+            dictionary[f'  {k}'] = nested_check(v)
+    return dictionary
+
+
+# flake8: noqa: C901
+def add_sign(dictionary):
+    new_dict = {}
+    for key, val in dictionary.items():
+        if val['type'] == 'deleted':
+            new_dict[f'- {key}'] = nested_check(val['value'])
+        elif val['type'] == 'added':
+            new_dict[f'+ {key}'] = nested_check(val['value'])
+        elif val['type'] == 'unchanged':
+            new_dict[f'  {key}'] = nested_check(val['value'])
+        elif val['type'] == 'changed':
+            new_dict[f'- {key}'] = nested_check(val['from'])
+            new_dict[f'+ {key}'] = nested_check(val['to'])
+        elif val['type'] == 'nested':
+            new_dict[f'  {key}'] = add_sign(val['value'])
+    return new_dict
+
+
 def sorted_plain(item_to_sort):
     if isinstance(item_to_sort, dict):
         sorted_item = dict(sorted(item_to_sort.items(),
@@ -62,7 +90,7 @@ def display_element(file, property, property_val, path=''):
 
 
 def plain(file):
-    sorted_file = sorted_plain(file)
+    sorted_file = sorted_plain(add_sign(file))
     result = ''
     for key, val in sorted_file.items():
         result += display_element(sorted_file, key, val)

@@ -1,6 +1,13 @@
 import itertools
 
 
+ADDED_ELEMENT = 'added'
+DELETED_ELEMENT = 'deleted'
+UNCHANGED_ELEMENT = 'unchanged'
+NESTED_ELEMENT = 'nested'
+CHANGED_ELEMENT = 'changed'
+
+
 def sort_by_second_part_of_key(item):
     key, value = item
     sign, word = key.split(' ', maxsplit=1)
@@ -31,16 +38,16 @@ def nested_check(indict):
 def add_sign(dictionary):
     new_dict = {}
     for key, val in dictionary.items():
-        if val['type'] == 'deleted':
+        if val['type'] == DELETED_ELEMENT:
             new_dict[f'- {key}'] = nested_check(val['value'])
-        elif val['type'] == 'added':
+        elif val['type'] == ADDED_ELEMENT:
             new_dict[f'+ {key}'] = nested_check(val['value'])
-        elif val['type'] == 'unchanged':
+        elif val['type'] == UNCHANGED_ELEMENT:
             new_dict[f'  {key}'] = nested_check(val['value'])
-        elif val['type'] == 'changed':
+        elif val['type'] == CHANGED_ELEMENT:
             new_dict[f'- {key}'] = nested_check(val['from'])
             new_dict[f'+ {key}'] = nested_check(val['to'])
-        elif val['type'] == 'nested':
+        elif val['type'] == NESTED_ELEMENT:
             new_dict[f'  {key}'] = add_sign(val['value'])
     return new_dict
 

@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 import argparse
 from gendiff import generate_diff
-
-
-FORMAT_STYLISH = 'stylish'
+from gendiff import FORMAT_STYLISH
 
 
 def main():

@@ -1,5 +1,4 @@
-import itertools
-import re
+import json
 
 
 ADDED_ELEMENT = 'added'
@@ -64,19 +63,7 @@ def sorted_json(item_to_sort):
     return sorted_item
 
 
-def json(file_to_format, replacer='  ', spaces_count=1):
-    def inner(current_value, add_indent):
-        if not isinstance(current_value, dict):
-            return str(check_exceptions(current_value))
-
-        current_count = add_indent + spaces_count
-        deep_indent = replacer * current_count
-        current_indent = replacer * add_indent
-        lines = []
-        for key, val in current_value.items():
-            lines.append(f'{deep_indent}"{key}": '
-                         f'{inner(val, current_count)},')
-        result = itertools.chain("{", lines, [current_indent + "}"])
-        return '\n'.join(result)
-    return re.sub(r',(?=\n\s*})', r'', inner(sorted_json(add_sign(
-        file_to_format)), 0))
+def json_(file_to_format):
+    result = sorted_json(add_sign(file_to_format))
+    final_result = json.dumps(result, indent=2)
+    return final_result

@@ -11,12 +11,12 @@ FORMAT_PLAIN = 'plain'
 FORMAT_JSON = 'json'
 
 
-def get_data(path_to_file):
-    if path_to_file.endswith('json'):
-        data = open(path_to_file).read()
+def get_data(path_to_data):
+    if path_to_data.endswith('json'):
+        data = open(path_to_data).read()
         data_format = json
-    elif path_to_file.endswith('yml') or path_to_file.endswith('yaml'):
-        data = open(path_to_file)
+    elif path_to_data.endswith('yml') or path_to_data.endswith('yaml'):
+        data = open(path_to_data)
         data_format = yaml
     else:
         raise Exception('Invalid data format specified!')
@@ -31,21 +31,21 @@ def parse_to_dict(data, data_format):
     return data_to_parse
 
 
-def generate_diff(input_file1, input_file2, format=FORMAT_STYLISH):
-    data1, data1_format = get_data(input_file1)
-    data2, data2_format = get_data(input_file2)
+def generate_diff(input_data1, input_data2, format_=FORMAT_STYLISH):
+    data1, data1_format = get_data(input_data1)
+    data2, data2_format = get_data(input_data2)
     diff = find_diff(parse_to_dict(data1, data1_format),
                      parse_to_dict(data2, data2_format))
-    return formatter(format, diff)
+    return formatter(format_, diff)
 
 
-def formatter(format, diff):
-    if format == FORMAT_STYLISH:
+def formatter(format_, diff):
+    if format_ == FORMAT_STYLISH:
         format_diff = stylish(diff)
         return format_diff
-    elif format == FORMAT_PLAIN:
+    elif format_ == FORMAT_PLAIN:
         format_diff = plain(diff)
         return format_diff
-    elif format == FORMAT_JSON:
+    elif format_ == FORMAT_JSON:
         format_diff = json_format(diff)
         return format_diff

@@ -9,12 +9,12 @@ CHANGED_ELEMENT_FROM = 'changed from'
 CHANGED_ELEMENT_TO = 'changed to'
 
 
-def sorted_stylish(item_to_sort):
-    sorted_item = dict(sorted(item_to_sort.items()))
-    for key in sorted_item:
-        if isinstance(sorted_item[key], dict) and (len(sorted_item[key]) > 1):
-            sorted_item[key] = sorted_stylish(sorted_item[key])
-    return sorted_item
+def sorted_stylish(dict_to_sort):
+    sorted_dict = dict(sorted(dict_to_sort.items()))
+    for key in sorted_dict:
+        if isinstance(sorted_dict[key], dict) and (len(sorted_dict[key]) > 1):
+            sorted_dict[key] = sorted_stylish(sorted_dict[key])
+    return sorted_dict
 
 
 def check_exceptions(element):
@@ -65,7 +65,7 @@ def add_value(val):
         return val['to']
 
 
-def stylish(file_to_format, replacer='  ', spaces_count=1):
+def stylish(data_to_format, replacer='  ', spaces_count=1):
     def inner(current_value, add_indent):
         if not isinstance(current_value, dict):
             return str(current_value)
@@ -83,4 +83,4 @@ def stylish(file_to_format, replacer='  ', spaces_count=1):
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
 
-    return inner(sorted_stylish(file_to_format), 0)
+    return inner(sorted_stylish(data_to_format), 0)

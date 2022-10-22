@@ -27,12 +27,12 @@ def check_exceptions(element):
     return f'"{element}"'
 
 
-def nested_check(indict):
-    if not isinstance(indict, dict):
-        return indict
+def nested_check(possible_dict):
+    if not isinstance(possible_dict, dict):
+        return possible_dict
     else:
         dictionary = {}
-        for k, v in indict.items():
+        for k, v in possible_dict.items():
             dictionary[f'  {k}'] = nested_check(v)
     return dictionary
 
@@ -58,16 +58,16 @@ def add_sign(dictionary):
     return new_dict
 
 
-def sorted_json(item_to_sort):
-    sorted_item = dict(sorted(item_to_sort.items(),
+def sorted_json(dict_to_sort):
+    sorted_dict = dict(sorted(dict_to_sort.items(),
                               key=sort_by_second_part_of_key))
-    for key in sorted_item:
-        if isinstance(sorted_item[key], dict) and (len(sorted_item[key]) > 1):
-            sorted_item[key] = sorted_json(sorted_item[key])
-    return sorted_item
+    for key in sorted_dict:
+        if isinstance(sorted_dict[key], dict) and (len(sorted_dict[key]) > 1):
+            sorted_dict[key] = sorted_json(sorted_dict[key])
+    return sorted_dict
 
 
-def json_(file_to_format):
-    result = sorted_json(add_sign(file_to_format))
+def json_(data_to_format):
+    result = sorted_json(add_sign(data_to_format))
     final_result = json.dumps(result, indent=2)
     return final_result

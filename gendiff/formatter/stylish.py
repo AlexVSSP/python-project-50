@@ -17,7 +17,8 @@ def sorted_stylish(dict_to_sort):
     return sorted_dict
 
 
-def check_exceptions(element):
+# flake8: noqa: C901
+def check_except(element):
     if element is True:
         return "true"
     if element is False:
@@ -78,8 +79,8 @@ def stylish(data_to_format, replacer='  ', spaces_count=1):
         for key, val in current_value.items():
             if key == 'type':
                 continue
-            lines.append(f'{deep_indent}{add_sign(check_exceptions(key), val)}: '
-                         f'{inner(check_exceptions(add_value(val)), inner_count)}')
+            lines.append(f'{deep_indent}{add_sign(check_except(key), val)}: '
+                         f'{inner(check_except(add_value(val)), inner_count)}')
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
 

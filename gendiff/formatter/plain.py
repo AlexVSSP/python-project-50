@@ -26,6 +26,7 @@ def check_exceptions(element):
     return f"'{element}'"
 
 
+# flake8: noqa: C901
 def display_element(data, property_, property_val, path=''):
     result = ''
     if property_val['type'] == 'changed from':
@@ -34,7 +35,8 @@ def display_element(data, property_, property_val, path=''):
         key = f'{property_[:-5]}'
         second_part_key = f'{key}_to'
         second_part = check_exceptions(data[second_part_key]['to']) \
-            if not isinstance(data[second_part_key]['to'], dict) else '[complex value]'
+            if not isinstance(data[second_part_key]['to'], dict) \
+            else '[complex value]'
         result += f"Property '{path}{key}' was updated. " \
                   f"From {first_part} to {second_part}\n"
     if property_val['type'] == 'chamged to':
@@ -45,7 +47,8 @@ def display_element(data, property_, property_val, path=''):
         result += f"Property '{path}{property_}' was removed\n"
     elif property_val['type'] == 'added':
         value = check_exceptions(property_val['value']) \
-            if not isinstance(property_val['value'], dict) else '[complex value]'
+            if not isinstance(property_val['value'], dict) \
+            else '[complex value]'
         result += (f"Property '{path}{property_}' was added with value: "
                    f"{value}\n")
     elif property_val['type'] == 'nested':

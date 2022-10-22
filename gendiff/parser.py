@@ -2,7 +2,6 @@ ADDED_ELEMENT = 'added'
 DELETED_ELEMENT = 'deleted'
 UNCHANGED_ELEMENT = 'unchanged'
 NESTED_ELEMENT = 'nested'
-# CHANGED_ELEMENT = 'changed'
 CHANGED_ELEMENT_FROM = 'changed from'
 CHANGED_ELEMENT_TO = 'changed to'
 

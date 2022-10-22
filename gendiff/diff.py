@@ -1,6 +1,6 @@
 import json
 import yaml
-from .parser_module import find_diff
+from gendiff.parser import find_diff
 from gendiff.formatter.stylish import stylish
 from gendiff.formatter.plain import plain
 from gendiff.formatter.json import json_ as json_format

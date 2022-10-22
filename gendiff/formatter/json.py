@@ -5,7 +5,8 @@ ADDED_ELEMENT = 'added'
 DELETED_ELEMENT = 'deleted'
 UNCHANGED_ELEMENT = 'unchanged'
 NESTED_ELEMENT = 'nested'
-CHANGED_ELEMENT = 'changed'
+CHANGED_ELEMENT_FROM = 'changed from'
+CHANGED_ELEMENT_TO = 'changed to'
 
 
 def sort_by_second_part_of_key(item):
@@ -46,9 +47,12 @@ def add_sign(dictionary):
             new_dict[f'+ {key}'] = nested_check(val['value'])
         elif val['type'] == UNCHANGED_ELEMENT:
             new_dict[f'  {key}'] = nested_check(val['value'])
-        elif val['type'] == CHANGED_ELEMENT:
-            new_dict[f'- {key}'] = nested_check(val['from'])
-            new_dict[f'+ {key}'] = nested_check(val['to'])
+        elif val['type'] == CHANGED_ELEMENT_FROM:
+            origin_key = key[:-5]
+            new_dict[f'- {origin_key}'] = nested_check(val['from'])
+            new_dict[f'+ {origin_key}'] = nested_check(dictionary[f'{origin_key}_to']['to'])
+        elif val['type'] == CHANGED_ELEMENT_TO:
+            pass
         elif val['type'] == NESTED_ELEMENT:
             new_dict[f'  {key}'] = add_sign(val['value'])
     return new_dict

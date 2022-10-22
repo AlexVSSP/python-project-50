@@ -2,7 +2,11 @@ ADDED_ELEMENT = 'added'
 DELETED_ELEMENT = 'deleted'
 UNCHANGED_ELEMENT = 'unchanged'
 NESTED_ELEMENT = 'nested'
-CHANGED_ELEMENT = 'changed'
+# CHANGED_ELEMENT = 'changed'
+CHANGED_ELEMENT_FROM = 'changed from'
+CHANGED_ELEMENT_TO = 'changed to'
+
+
 
 
 def find_diff(first_dict, second_dict):
@@ -21,6 +25,6 @@ def find_diff(first_dict, second_dict):
                            'value': find_diff(first_dict[key],
                                               second_dict[key])}
         else:
-            result[key] = {'type': CHANGED_ELEMENT, 'from': first_dict[key],
-                           'to': second_dict[key]}
+            result[f'{key}_from'] = {'type': CHANGED_ELEMENT_FROM , 'from': first_dict[key]}
+            result[f'{key}_to'] = {'type': CHANGED_ELEMENT_TO, 'to': second_dict[key]}
     return result

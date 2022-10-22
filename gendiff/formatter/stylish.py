@@ -5,13 +5,16 @@ ADDED_ELEMENT = 'added'
 DELETED_ELEMENT = 'deleted'
 UNCHANGED_ELEMENT = 'unchanged'
 NESTED_ELEMENT = 'nested'
-CHANGED_ELEMENT = 'changed'
+CHANGED_ELEMENT_FROM = 'changed from'
+CHANGED_ELEMENT_TO = 'changed to'
 
 
-def sort_by_second_part_of_key(item):
-    key, value = item
-    sign, word = key.split(' ', maxsplit=1)
-    return str(word.strip())
+def sorted_stylish(item_to_sort):
+    sorted_item = dict(sorted(item_to_sort.items()))
+    for key in sorted_item:
+        if isinstance(sorted_item[key], dict) and (len(sorted_item[key]) > 1):
+            sorted_item[key] = sorted_stylish(sorted_item[key])
+    return sorted_item
 
 
 def check_exceptions(element):
@@ -21,44 +24,45 @@ def check_exceptions(element):
         return "false"
     if element is None:
         return "null"
+    if isinstance(element, int):
+        return element
+    if '_from' in element:
+        return element[:-5]
+    if '_to' in element:
+        return element[:-3]
     return element
 
 
-def nested_check(indict):
-    if not isinstance(indict, dict):
-        return indict
-    else:
-        dictionary = {}
-        for k, v in indict.items():
-            dictionary[f'  {k}'] = nested_check(v)
-    return dictionary
+def add_sign(key, val):
+    if not isinstance(val, dict):
+        return f'  {key}'
+    if isinstance(val, dict) and len(val) == 1:
+        return f'  {key}'
+    elif val['type'] == 'deleted':
+        return f'- {key}'
+    elif val['type'] == 'added':
+        return f'+ {key}'
+    elif val['type'] == 'unchanged':
+        return f'  {key}'
+    elif val['type'] == 'changed from':
+        return f'- {key}'
+    elif val['type'] == 'changed to':
+        return f'+ {key}'
+    elif val['type'] == 'nested':
+        return f'  {key}'
 
 
-# flake8: noqa: C901
-def add_sign(dictionary):
-    new_dict = {}
-    for key, val in dictionary.items():
-        if val['type'] == DELETED_ELEMENT:
-            new_dict[f'- {key}'] = nested_check(val['value'])
-        elif val['type'] == ADDED_ELEMENT:
-            new_dict[f'+ {key}'] = nested_check(val['value'])
-        elif val['type'] == UNCHANGED_ELEMENT:
-            new_dict[f'  {key}'] = nested_check(val['value'])
-        elif val['type'] == CHANGED_ELEMENT:
-            new_dict[f'- {key}'] = nested_check(val['from'])
-            new_dict[f'+ {key}'] = nested_check(val['to'])
-        elif val['type'] == NESTED_ELEMENT:
-            new_dict[f'  {key}'] = add_sign(val['value'])
-    return new_dict
-
-
-def sorted_stylish(item_to_sort):
-    sorted_item = dict(sorted(item_to_sort.items(),
-                              key=sort_by_second_part_of_key))
-    for key in sorted_item:
-        if isinstance(sorted_item[key], dict) and (len(sorted_item[key]) > 1):
-            sorted_item[key] = sorted_stylish(sorted_item[key])
-    return sorted_item
+def add_value(val):
+    if not isinstance(val, dict):
+        return val
+    if isinstance(val, dict) and len(val) == 1:
+        return val
+    elif 'value' in val:
+        return val['value']
+    elif 'from' in val:
+        return val['from']
+    elif 'to' in val:
+        return val['to']
 
 
 def stylish(file_to_format, replacer='  ', spaces_count=1):
@@ -72,8 +76,11 @@ def stylish(file_to_format, replacer='  ', spaces_count=1):
         inner_count = current_count + spaces_count
         lines = []
         for key, val in current_value.items():
-            lines.append(f'{deep_indent}{key}: '
-                         f'{inner(check_exceptions(val), inner_count)}')
+            if key == 'type':
+                continue
+            lines.append(f'{deep_indent}{add_sign(check_exceptions(key), val)}: '
+                         f'{inner(check_exceptions(add_value(val)), inner_count)}')
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
-    return inner(sorted_stylish(add_sign(file_to_format)), 0)
+
+    return inner(sorted_stylish(file_to_format), 0)

@@ -1,9 +1,5 @@
-ADDED_ELEMENT = 'added'
-DELETED_ELEMENT = 'deleted'
-UNCHANGED_ELEMENT = 'unchanged'
-NESTED_ELEMENT = 'nested'
-CHANGED_ELEMENT_FROM = 'changed from'
-CHANGED_ELEMENT_TO = 'changed to'
+from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, NESTED_ELEMENT, \
+    CHANGED_ELEMENT_FROM, CHANGED_ELEMENT_TO
 
 
 def sorted_plain(dict_to_sort):
@@ -29,7 +25,7 @@ def check_exceptions(element):
 # flake8: noqa: C901
 def display_element(data, property_, property_val, path=''):
     result = ''
-    if property_val['type'] == 'changed from':
+    if property_val['type'] == CHANGED_ELEMENT_FROM:
         first_part = check_exceptions(property_val['from']) \
             if not isinstance(property_val['from'], dict) else '[complex value]'
         key = f'{property_[:-5]}'
@@ -39,19 +35,19 @@ def display_element(data, property_, property_val, path=''):
             else '[complex value]'
         result += f"Property '{path}{key}' was updated. " \
                   f"From {first_part} to {second_part}\n"
-    if property_val['type'] == 'chamged to':
+    if property_val['type'] == CHANGED_ELEMENT_TO:
         pass
-    if property_val['type'] == 'unchanged':
+    if property_val['type'] == UNCHANGED_ELEMENT:
         pass
-    elif property_val['type'] == 'deleted':
+    elif property_val['type'] == DELETED_ELEMENT:
         result += f"Property '{path}{property_}' was removed\n"
-    elif property_val['type'] == 'added':
+    elif property_val['type'] == ADDED_ELEMENT:
         value = check_exceptions(property_val['value']) \
             if not isinstance(property_val['value'], dict) \
             else '[complex value]'
         result += (f"Property '{path}{property_}' was added with value: "
                    f"{value}\n")
-    elif property_val['type'] == 'nested':
+    elif property_val['type'] == NESTED_ELEMENT:
         path += f'{property_}.'
         for key, val in property_val['value'].items():
             result += display_element(property_val['value'], key, val, path)

@@ -1,12 +1,6 @@
 import json
-
-
-ADDED_ELEMENT = 'added'
-DELETED_ELEMENT = 'deleted'
-UNCHANGED_ELEMENT = 'unchanged'
-NESTED_ELEMENT = 'nested'
-CHANGED_ELEMENT_FROM = 'changed from'
-CHANGED_ELEMENT_TO = 'changed to'
+from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, NESTED_ELEMENT, \
+    CHANGED_ELEMENT_FROM, CHANGED_ELEMENT_TO
 
 
 def sort_by_second_part_of_key(item):

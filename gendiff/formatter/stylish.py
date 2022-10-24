@@ -1,12 +1,6 @@
 import itertools
-
-
-ADDED_ELEMENT = 'added'
-DELETED_ELEMENT = 'deleted'
-UNCHANGED_ELEMENT = 'unchanged'
-NESTED_ELEMENT = 'nested'
-CHANGED_ELEMENT_FROM = 'changed from'
-CHANGED_ELEMENT_TO = 'changed to'
+from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, NESTED_ELEMENT, \
+    CHANGED_ELEMENT_FROM, CHANGED_ELEMENT_TO
 
 
 def sorted_stylish(dict_to_sort):
@@ -39,17 +33,17 @@ def add_sign(key, val):
         return f'  {key}'
     if isinstance(val, dict) and len(val) == 1:
         return f'  {key}'
-    elif val['type'] == 'deleted':
+    elif val['type'] == DELETED_ELEMENT:
         return f'- {key}'
-    elif val['type'] == 'added':
+    elif val['type'] == ADDED_ELEMENT:
         return f'+ {key}'
-    elif val['type'] == 'unchanged':
+    elif val['type'] == UNCHANGED_ELEMENT:
         return f'  {key}'
-    elif val['type'] == 'changed from':
+    elif val['type'] == CHANGED_ELEMENT_FROM:
         return f'- {key}'
-    elif val['type'] == 'changed to':
+    elif val['type'] == CHANGED_ELEMENT_TO:
         return f'+ {key}'
-    elif val['type'] == 'nested':
+    elif val['type'] == NESTED_ELEMENT:
         return f'  {key}'
 
 

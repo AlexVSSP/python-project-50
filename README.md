@@ -47,4 +47,4 @@ This utility accepts two JSON or YAML files as input and outputs the difference 
 [![asciicast](https://asciinema.org/a/526834.svg)](https://asciinema.org/a/526834)
 
 ### Comparison of nested files (output in JSON)
-[![asciicast](https://asciinema.org/a/527742.svg)](https://asciinema.org/a/527742)
+[![asciicast](https://asciinema.org/a/531883.svg)](https://asciinema.org/a/531883)

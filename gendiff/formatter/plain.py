@@ -1,13 +1,5 @@
-from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, NESTED_ELEMENT, \
-    CHANGED_ELEMENT_FROM, CHANGED_ELEMENT_TO
-
-
-def sorted_plain(dict_to_sort):
-    sorted_dict = dict(sorted(dict_to_sort.items()))
-    for key in sorted_dict:
-        if isinstance(sorted_dict[key], dict) and (len(sorted_dict[key]) > 1):
-            sorted_dict[key] = sorted_plain(sorted_dict[key])
-    return sorted_dict
+from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, \
+    NESTED_ELEMENT, CHANGED_ELEMENT
 
 
 def check_exceptions(element):
@@ -23,20 +15,16 @@ def check_exceptions(element):
 
 
 # flake8: noqa: C901
-def display_element(data, property_, property_val, path=''):
+def display_element(property_, property_val, path=''):
     result = ''
-    if property_val['type'] == CHANGED_ELEMENT_FROM:
+    if property_val['type'] == CHANGED_ELEMENT:
         first_part = check_exceptions(property_val['from']) \
             if not isinstance(property_val['from'], dict) else '[complex value]'
-        key = f'{property_[:-5]}'
-        second_part_key = f'{key}_to'
-        second_part = check_exceptions(data[second_part_key]['to']) \
-            if not isinstance(data[second_part_key]['to'], dict) \
+        second_part = check_exceptions(property_val['to']) \
+            if not isinstance(property_val['to'], dict) \
             else '[complex value]'
-        result += f"Property '{path}{key}' was updated. " \
+        result += f"Property '{path}{property_}' was updated. " \
                   f"From {first_part} to {second_part}\n"
-    if property_val['type'] == CHANGED_ELEMENT_TO:
-        pass
     if property_val['type'] == UNCHANGED_ELEMENT:
         pass
     elif property_val['type'] == DELETED_ELEMENT:
@@ -49,16 +37,16 @@ def display_element(data, property_, property_val, path=''):
                    f"{value}\n")
     elif property_val['type'] == NESTED_ELEMENT:
         path += f'{property_}.'
-        for key, val in property_val['value'].items():
-            result += display_element(property_val['value'], key, val, path)
+        sorted_dict = dict(sorted(property_val['value'].items()))
+        for key, val in sorted_dict.items():
+            result += display_element(key, val, path)
     return result
 
 
-def plain(data):
-    sorted_data = sorted_plain(data)
+def plain(sorted_file):
     result = ''
-    for key, val in sorted_data.items():
-        result += display_element(sorted_data, key, val)
+    for key, val in sorted_file.items():
+        result += display_element(key, val)
     result = result.strip()
     result = result.splitlines()
     result = dict.fromkeys(result)

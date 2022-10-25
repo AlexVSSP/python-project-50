@@ -1,7 +1,6 @@
 import pytest
 from gendiff import generate_diff
 from gendiff import FORMAT_PLAIN, FORMAT_JSON
-# from gendiff.formatter.json import json
 
 
 @pytest.fixture

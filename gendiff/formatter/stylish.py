@@ -1,6 +1,6 @@
 import itertools
-from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, NESTED_ELEMENT, \
-    CHANGED_ELEMENT_FROM, CHANGED_ELEMENT_TO
+from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, \
+    NESTED_ELEMENT, CHANGED_ELEMENT
 
 
 def sorted_stylish(dict_to_sort):
@@ -21,10 +21,6 @@ def check_except(element):
         return "null"
     if isinstance(element, int):
         return element
-    if '_from' in element:
-        return element[:-5]
-    if '_to' in element:
-        return element[:-3]
     return element
 
 
@@ -39,9 +35,9 @@ def add_sign(key, val):
         return f'+ {key}'
     elif val['type'] == UNCHANGED_ELEMENT:
         return f'  {key}'
-    elif val['type'] == CHANGED_ELEMENT_FROM:
+    elif val['type'] == CHANGED_ELEMENT and 'from' in val:
         return f'- {key}'
-    elif val['type'] == CHANGED_ELEMENT_TO:
+    elif val['type'] == CHANGED_ELEMENT and 'to' in val:
         return f'+ {key}'
     elif val['type'] == NESTED_ELEMENT:
         return f'  {key}'
@@ -64,18 +60,19 @@ def stylish(data_to_format, replacer='  ', spaces_count=1):
     def inner(current_value, add_indent):
         if not isinstance(current_value, dict):
             return str(current_value)
-
+        sorted_current_value = dict(sorted(current_value.items()))
         current_count = add_indent + spaces_count
         deep_indent = replacer * current_count
         current_indent = replacer * add_indent
         inner_count = current_count + spaces_count
         lines = []
-        for key, val in current_value.items():
-            if key == 'type':
-                continue
-            lines.append(f'{deep_indent}{add_sign(check_except(key), val)}: '
+        for key, val in sorted_current_value.items():
+            lines.append(f'{deep_indent}{add_sign(key, val)}: '
                          f'{inner(check_except(add_value(val)), inner_count)}')
+            if isinstance(val, dict) and 'to' in val:
+                val.pop('from')
+                lines.append(f'{deep_indent}{add_sign(key, val)}: '
+                             f'{inner(check_except(add_value(val)), inner_count)}')
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
-
-    return inner(sorted_stylish(data_to_format), 0)
+    return inner(data_to_format, 0)

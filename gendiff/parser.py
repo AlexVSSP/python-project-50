@@ -21,5 +21,6 @@ def find_diff(first_dict, second_dict):
                            'value': find_diff(first_dict[key],
                                               second_dict[key])}
         else:
-            result[key] = {'type': CHANGED_ELEMENT, 'from': first_dict[key], 'to': second_dict[key]}
+            result[key] = {'type': CHANGED_ELEMENT, 'from': first_dict[key],
+                           'to': second_dict[key]}
     return result

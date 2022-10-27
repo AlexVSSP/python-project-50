@@ -1,5 +1,5 @@
 import itertools
-from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, \
+from gendiff.diff import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, \
     NESTED_ELEMENT, CHANGED_ELEMENT
 
 

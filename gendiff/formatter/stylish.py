@@ -48,8 +48,8 @@ def add_value(val):
         return val['to']
 
 
-def stylish(data_to_format, replacer='  ', spaces_count=1):
-    def inner(current_value, add_indent):
+def stylish(data_to_format):
+    def inner(current_value, add_indent, replacer='  ', spaces_count=1):
         if not isinstance(current_value, dict):
             return str(current_value)
         sorted_current_value = dict(sorted(current_value.items()))

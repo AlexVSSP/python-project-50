@@ -3,14 +3,6 @@ from gendiff.parser import ADDED_ELEMENT, DELETED_ELEMENT, UNCHANGED_ELEMENT, \
     NESTED_ELEMENT, CHANGED_ELEMENT
 
 
-def sorted_stylish(dict_to_sort):
-    sorted_dict = dict(sorted(dict_to_sort.items()))
-    for key in sorted_dict:
-        if isinstance(sorted_dict[key], dict) and (len(sorted_dict[key]) > 1):
-            sorted_dict[key] = sorted_stylish(sorted_dict[key])
-    return sorted_dict
-
-
 # flake8: noqa: C901
 def check_except(element):
     if element is True:

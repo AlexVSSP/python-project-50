@@ -4,23 +4,27 @@ from gendiff.parser import find_diff
 from .formatter.formatter import formatter, FORMAT_STYLISH
 
 
+DATA_FORMAT_JSON = 'json'
+DATA_FORMAT_YAML = 'yaml'
+
+
 def get_data(path_to_data):
     if path_to_data.endswith('json'):
         data = open(path_to_data).read()
-        data_format = json
+        data_format = DATA_FORMAT_JSON
     elif path_to_data.endswith('yml') or path_to_data.endswith('yaml'):
         data = open(path_to_data)
-        data_format = yaml
+        data_format = DATA_FORMAT_YAML
     else:
         raise Exception('Invalid data format specified!')
     return data, data_format
 
 
 def parse_to_dict(data, data_format):
-    if data_format == json:
-        data_to_parse = data_format.loads(data)
+    if data_format == DATA_FORMAT_JSON:
+        data_to_parse = json.loads(data)
     else:
-        data_to_parse = data_format.safe_load(data)
+        data_to_parse = yaml.safe_load(data)
     return data_to_parse
 
 
